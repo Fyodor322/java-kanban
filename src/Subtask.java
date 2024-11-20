@@ -1,16 +1,14 @@
-import java.util.ArrayList;
 
 public class Subtask extends Task{
-    final private Epic epic;
+    private final int epicId;
 
-    public Subtask(String name, String description, Epic epic) {
-        super(name, description);
-        this.epic = epic;
-        epic.getSubtasks().add(this);
+    public Subtask(String name, String description, Progress progress, int epicId) {
+        super(name, description, progress);
+        this.epicId = epicId;
     }
 
-    public Epic getEpic() {
-        return epic;
+    public int getEpic() {
+        return epicId;
     }
 
     @Override
@@ -18,9 +16,9 @@ public class Subtask extends Task{
         return "Task{" +
                 "name='" + getName() + '\'' +
                 ", description.length='" + getDescription().length() + '\'' +
-                ", id=" + getId() +
                 ", progress=" + getProgress() +
-                ", Epic=" + getEpic().getName() +
+                ", id=" + getId() +
+                ", EpicId=" + epicId +
                 "}\n";
     }
 }

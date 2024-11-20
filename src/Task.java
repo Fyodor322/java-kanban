@@ -3,14 +3,13 @@ import java.util.Objects;
 public class Task {
     private String name;
     private String description;
-    private final int id;
     private Progress progress;
+    private int id;
 
-    public Task(String name, String description) {
+    public Task(String name, String description, Progress progress) {
         this.name = name;
         this.description = description;
-        this.progress = Progress.NEW;
-        this.id = this.hashCode();
+        this.progress = progress;
     }
 
     public String getDescription() {
@@ -27,6 +26,10 @@ public class Task {
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id){
+        this.id = id;
     }
 
     public void setName(String name) {
@@ -46,23 +49,22 @@ public class Task {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return id == task.id && Objects.equals(name, task.name) && Objects.equals(description, task.description) && progress == task.progress;
+        return Objects.equals(name, task.name) && Objects.equals(description, task.description) && progress == task.progress;
     }
 
     @Override
     public int hashCode() {
         int prime = 31;
-        return prime * Objects.hash(name, description, id, progress);
+        return prime * Objects.hash(name, description, progress);
     }
 
     @Override
     public String toString() {
         return "Task{" +
                 "name='" + name + '\'' +
-                ", description.length='" + getDescription().length() + '\'' +
-                ", id=" + id +
+                ", description.length='" + description.length() + '\'' +
                 ", progress=" + progress +
-                "}\n";
+                '}';
     }
 }
 
