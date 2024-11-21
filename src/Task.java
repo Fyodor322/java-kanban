@@ -12,6 +12,13 @@ public class Task {
         this.progress = progress;
     }
 
+    public Task(Task task){
+        this.name = task.name;
+        this.description = task.description;
+        this.progress = task.progress;
+        this.id = task.id;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -54,8 +61,7 @@ public class Task {
 
     @Override
     public int hashCode() {
-        int prime = 31;
-        return prime * Objects.hash(name, description, progress);
+        return Objects.hash(name, description, progress);
     }
 
     @Override

@@ -15,7 +15,7 @@ public class Main {
             Epic epic;
             switch (command) {
                 case "1":
-                    System.out.println(taskManager.getTasks());
+                    printAllTasks();
                     break;
                 case "2":
                     taskManager.removeAllTasks();
@@ -32,7 +32,7 @@ public class Main {
                     taskManager.removeTask(id);
                     break;
                 case "6":
-                    System.out.println(taskManager.getTasks().toString());
+                    printAllTasks();
                     System.out.println("введите ID эпика: ");
                     id = scanner.nextInt();
                     System.out.println(taskManager.getSubtasks(id));
@@ -41,14 +41,16 @@ public class Main {
                     System.out.println("Введите id эпика: ");
                     id = scanner.nextInt();
                     epic = (Epic) taskManager.getTask(id);
-                    System.out.println("Введите id подзадачи");
-                    epic.removeSubtask(id);
+                    epic.clearSubtasks();
                     break;
                 case "8":
                     System.out.println("Введите id эпика: ");
                     id = scanner.nextInt();
                     epic = (Epic) taskManager.getTask(id);
-                    epic.clearSubtasks();
+                    System.out.println("Введите id подзадачи");
+                    id = scanner.nextInt();
+                    Subtask subtask = (Subtask) taskManager.getTask(id);
+                    epic.removeSubtask(subtask);
                     break;
                 case "9":
                     return;
@@ -57,6 +59,11 @@ public class Main {
                     break;
             }
         }
+    }
+
+    private static void printAllTasks(){
+        System.out.println(taskManager.getEpics());
+        System.out.println(taskManager.getSubtasks());
     }
 
     private static void printMenu() {
@@ -84,7 +91,7 @@ public class Main {
 
         if (command.equals("да")) {
             System.out.println("задача добавлена");
-            Epic epic = new Epic(name, description, Progress.NEW);
+            Epic epic = new Epic(name, description);
             taskManager.addTask(epic);
             System.out.println("введите подзадачи разделяя их enter");
             System.out.println("чтобы перестать вводить задачи, введите пустые строки в поля описания и названия новой задачи");
@@ -107,7 +114,7 @@ public class Main {
             }
 
         } else {
-            Task task = new Task(name, description, Progress.NEW);
+            Epic task = new Epic(name, description);
             taskManager.addTask(task);
             System.out.println("задача добавлена");
         }
@@ -117,7 +124,7 @@ public class Main {
         System.out.println("введите id задачи, которую нужно изменить: ");
         int id = Integer.parseInt(scanner.next());
         if (taskManager.getTask(id) != null) {
-            Task task = taskManager.getTask(id);
+            Task task = new Task(taskManager.getTask(id));
             System.out.println("Что вы хотите изменить?");
             System.out.println("1.Название задачи");
             System.out.println("2.Описание задачи");

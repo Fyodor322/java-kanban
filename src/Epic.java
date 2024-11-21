@@ -1,10 +1,11 @@
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Epic extends Task{
     private final ArrayList<Subtask> subtasks;
 
-    public Epic(String name, String description, Progress progress) {
-        super(name, description, progress);
+    public Epic(String name, String description) {
+        super(name, description, Progress.NEW);
         subtasks = new ArrayList<>();
     }
 
@@ -16,8 +17,8 @@ public class Epic extends Task{
         subtasks.add(subtask);
     }
 
-    public void removeSubtask(int id){
-        subtasks.remove(id);
+    public void removeSubtask(Subtask subtask){
+        subtasks.remove(subtask);
     }
 
     public void clearSubtasks(){
@@ -33,5 +34,11 @@ public class Epic extends Task{
                 ", progress=" + getProgress() +
                 ", subtasks=" + getSubtasks().size() +
                 "}\n";
+    }
+
+    @Override
+    public int hashCode() {
+        int prime = 28;
+        return prime * Objects.hash(super.hashCode(), subtasks);
     }
 }

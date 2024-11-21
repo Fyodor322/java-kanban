@@ -1,3 +1,4 @@
+import java.util.Objects;
 
 public class Subtask extends Task{
     private final int epicId;
@@ -20,5 +21,11 @@ public class Subtask extends Task{
                 ", id=" + getId() +
                 ", EpicId=" + epicId +
                 "}\n";
+    }
+
+    @Override
+    public int hashCode() {
+        int prime = 31;
+        return prime * Objects.hash(super.hashCode(), epicId);
     }
 }
