@@ -12,12 +12,12 @@ public class Task {
         this.progress = progress;
     }
 
-    public Task(Task task){
-        this.name = task.name;
-        this.description = task.description;
-        this.progress = task.progress;
-        this.id = task.id;
-    }
+//    public Task(Task task){
+//        this.name = task.name;
+//        this.description = task.description;
+//        this.progress = task.progress;
+//        this.id = task.id;
+//    }
 
     public String getDescription() {
         return description;

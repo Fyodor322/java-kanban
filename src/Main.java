@@ -19,9 +19,9 @@ public class Main {
         taskManager.addTask(epic1);
         taskManager.addTask(epic2);
 
-        Subtask subtask11 = new Subtask("Подзадача11", "Подзадача11", epic1.getId());
-        Subtask subtask21 = new Subtask("Подзадача21", "Подзадача21", epic2.getId());
-        Subtask subtask22 = new Subtask("Подзадача22", "Подзадача212", epic2.getId());
+        Subtask subtask11 = new Subtask("Подзадача11", "Подзадача11", epic1.getId(), Progress.NEW);
+        Subtask subtask21 = new Subtask("Подзадача21", "Подзадача21", epic2.getId(), Progress.NEW);
+        Subtask subtask22 = new Subtask("Подзадача22", "Подзадача212", epic2.getId(), Progress.NEW);
 
         taskManager.addTask(subtask11);
         taskManager.addTask(subtask21);
@@ -36,6 +36,8 @@ public class Main {
                     break;
                 case "2":
                     taskManager.removeAllTasks();
+                    taskManager.removeAllSubtasks();
+                    taskManager.removeAllEpics();
                     break;
                 case "3":
                     createTask(scanner);
@@ -50,12 +52,6 @@ public class Main {
                     getSubtasksEpic(scanner);
                     break;
                 case "7":
-                    deleteAllSubtasksEpic(scanner);
-                    break;
-                case "8":
-                    deleteSubtaskEpic(scanner);
-                    break;
-                case "9":
                     return;
                 default:
                     System.out.println("Такой команды нет");
@@ -78,9 +74,7 @@ public class Main {
         System.out.println("4 - Обновить задачу");
         System.out.println("5 - Удалить задачу по ID");
         System.out.println("6 - Получить список всех подзадач эпика");
-        System.out.println("7 - Удалить все подзадачи конкретного эпика");
-        System.out.println("8 - Удалить подзадачу конкретного эпика");
-        System.out.println("9 - выход");
+        System.out.println("7 - выход");
     }
 
     private static void createTask(Scanner scanner) {
@@ -110,7 +104,7 @@ public class Main {
                 System.out.println("введите описание " + i + " подзадачи");
                 descriptionST = scanner.nextLine();
                 if (!nameST.isEmpty() && !descriptionST.isEmpty()) {
-                    taskManager.addTask(new Subtask(nameST, descriptionST, epic.getId()));
+                    taskManager.addTask(new Subtask(nameST, descriptionST, epic.getId(), Progress.NEW));
                     System.out.println("подзадача добавлена");
                 } else {
                     break;
@@ -127,8 +121,86 @@ public class Main {
     private static void updateTask(Scanner scanner) {
         System.out.println("введите id задачи, которую нужно изменить: ");
         int id = Integer.parseInt(scanner.next());
-        if (taskManager.getTask(id) != null) {
-            Task task = new Task(taskManager.getTask(id));
+        System.out.println("что вы хотите изменить?");
+        System.out.println("1.Задачу");
+        System.out.println("2.Подзадачу");
+        System.out.println("3.Эпик");
+        int typeTask = Integer.parseInt(scanner.next());
+        if(typeTask == 1){
+            Task task = new Task(taskManager.getTask(id).getName(), taskManager.getTask(id).getDescription(), Progress.NEW);
+            task.setId(id);
+            changeTask(scanner, task, id);
+        }else if (typeTask == 2){
+            Subtask subtask = new Subtask(taskManager.getSubtask(id).getName(), taskManager.getSubtask(id).getDescription(), taskManager.getSubtask(id).getEpic(), Progress.NEW);
+            subtask.setId(id);
+            changeTask(scanner, subtask, id);
+        } else if (typeTask == 3) {
+            Epic epic = new Epic(taskManager.getEpic(id).getName(), taskManager.getEpic(id).getDescription());
+            epic.setId(id);
+            changeTask(scanner, epic, id);
+        }else {
+            System.out.println("такой команды нет");
+        }
+    }
+
+    private static void deleteTaskById(Scanner scanner) {
+        System.out.println("что вы хотите удалить?");
+        System.out.println("1.Задачу");
+        System.out.println("2.Подзадачу");
+        System.out.println("3.Эпик");
+        int typeTask = Integer.parseInt(scanner.next());
+        System.out.println("Введите id задачи, которую нужно удалить: ");
+        int id = scanner.nextInt();
+        if (typeTask ==1){
+            taskManager.removeTask(id);
+        } else if (typeTask == 2) {
+            taskManager.removeSubtask(id);
+        } else if (typeTask == 3) {
+            taskManager.removeEpic(id);
+        }else {
+            System.out.println("такой команды нет");
+        }
+
+    }
+
+    private static void getSubtasksEpic(Scanner scanner) {
+        printAllTasks();
+        System.out.println("введите ID эпика: ");
+        int id = scanner.nextInt();
+        System.out.println(taskManager.getSubtasks(id));
+    }
+
+    private static void changeTask(Scanner scanner, Epic task, int id){
+        if (taskManager.getEpic(id) != null) {
+
+            System.out.println("Что вы хотите изменить?");
+            System.out.println("1.Название задачи");
+            System.out.println("2.Описание задачи");
+            String command = scanner.next();
+            String newParam;
+            switch (command) {
+                case "1":
+                    System.out.println("Введите новое название задачи:");
+                    newParam = scanner.next();
+                    task.setName(newParam);
+                    System.out.println("Название задачи успешно изменено");
+                    break;
+                case "2":
+                    System.out.println("Введите новое описание задачи:");
+                    newParam = scanner.next();
+                    task.setDescription(newParam);
+                    System.out.println("Описание задачи успешно изменено");
+                    break;
+            }
+            taskManager.updateTask(task);
+            System.out.println("Задача обновлена");
+        } else {
+            System.out.println("Задача с таким id не найдена");
+        }
+    }
+
+    private static void changeTask(Scanner scanner, Subtask task, int id){
+        if (taskManager.getSubtask(id) != null) {
 
             System.out.println("Что вы хотите изменить?");
             System.out.println("1.Название задачи");
@@ -163,30 +235,39 @@ public class Main {
         }
     }
 
-    private static void deleteTaskById(Scanner scanner) {
-        System.out.println("Введите id задачи, которую нужно удалить: ");
-        int id = scanner.nextInt();
-        taskManager.removeTask(id);
-    }
+    private static void changeTask(Scanner scanner, Task task, int id){
+        if (taskManager.getTask(id) != null) {
 
-    private static void getSubtasksEpic(Scanner scanner) {
-        printAllTasks();
-        System.out.println("введите ID эпика: ");
-        int id = scanner.nextInt();
-        System.out.println(taskManager.getSubtasks(id));
-    }
-
-    private static void deleteAllSubtasksEpic(Scanner scanner) {
-        System.out.println("Введите id эпика: ");
-        int idEpic = scanner.nextInt();
-        taskManager.clearEpicSubtasks(idEpic);
-    }
-
-    private static void deleteSubtaskEpic(Scanner scanner) {
-        System.out.println("Введите id эпика: ");
-        int idEpic = scanner.nextInt();
-        System.out.println("Введите id подзадачи");
-        int idSubtask = scanner.nextInt();
-        taskManager.removeEpicSubtask(idEpic, idSubtask);
+            System.out.println("Что вы хотите изменить?");
+            System.out.println("1.Название задачи");
+            System.out.println("2.Описание задачи");
+            System.out.println("3.Прогресс задачи");
+            String command = scanner.next();
+            String newParam;
+            switch (command) {
+                case "1":
+                    System.out.println("Введите новое название задачи:");
+                    newParam = scanner.next();
+                    task.setName(newParam);
+                    System.out.println("Название задачи успешно изменено");
+                    break;
+                case "2":
+                    System.out.println("Введите новое описание задачи:");
+                    newParam = scanner.next();
+                    task.setDescription(newParam);
+                    System.out.println("Описание задачи успешно изменено");
+                    break;
+                case "3":
+                    System.out.println("Введите новый прогресс задачи (NEW, IN_PROGRESS, DONE):");
+                    Progress newParamProgress = Progress.valueOf(scanner.next());
+                    task.setProgress(newParamProgress);
+                    System.out.println("Прогресс задачи успешно изменён");
+                    break;
+            }
+            taskManager.updateTask(task);
+            System.out.println("Задача обновлена");
+        } else {
+            System.out.println("Задача с таким id не найдена");
+        }
     }
 }
