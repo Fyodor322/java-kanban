@@ -70,7 +70,8 @@ public class Task {
                 "name='" + name + '\'' +
                 ", description.length='" + description.length() + '\'' +
                 ", progress=" + progress +
-                '}';
+                ", id=" + id +
+                "}\n";
     }
 }
 

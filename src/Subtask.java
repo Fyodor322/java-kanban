@@ -3,8 +3,13 @@ import java.util.Objects;
 public class Subtask extends Task{
     private final int epicId;
 
-    public Subtask(String name, String description, Progress progress, int epicId) {
-        super(name, description, progress);
+    public Subtask(String name, String description, int epicId) {
+        super(name, description, Progress.NEW);
+        this.epicId = epicId;
+    }
+
+    public Subtask(Task task, int epicId) {
+        super(task);
         this.epicId = epicId;
     }
 
