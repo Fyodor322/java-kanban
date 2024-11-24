@@ -33,11 +33,16 @@ public class TaskManager {
     }
 
     public void removeAllSubtasks(){
+        for (Epic epic : epics.values()){
+            epic.clearSubtasks();
+            calculateProgress(epic);
+        }
         subtasks.clear();
         System.out.println("Все подзадачи удалены");
     }
 
     public void removeAllEpics(){
+        subtasks.clear();
         epics.clear();
         System.out.println("Все эпики удалены");
     }
@@ -111,9 +116,10 @@ public class TaskManager {
     }
 
     public void removeSubtask(int id){
-        subtasks.remove(id);
-        getEpic(getSubtask(id).getEpic()).removeSubtask(id);
-        calculateProgress(getEpic(getSubtask(id).getEpic()));
+        Subtask subtask = subtasks.remove(id);
+        Epic epic = epics.get(subtask.getEpic());
+        epic.removeSubtask(id);
+        calculateProgress(epic);
         System.out.println("Задача удалена");
     }
 

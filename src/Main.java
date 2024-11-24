@@ -8,25 +8,6 @@ public class Main {
         taskManager = new TaskManager();
         scanner = new Scanner(System.in);
 
-        Task task1 = new Task("задача1", "опЗадачи1", Progress.NEW);
-        Task task2 = new Task("задача2", "опЗадачи2", Progress.NEW);
-
-        Epic epic1 = new Epic("епик1", "опЭпик1");
-        Epic epic2 = new Epic("епик2", "опЭпик2");
-
-        taskManager.addTask(task1);
-        taskManager.addTask(task2);
-        taskManager.addTask(epic1);
-        taskManager.addTask(epic2);
-
-        Subtask subtask11 = new Subtask("Подзадача11", "Подзадача11", epic1.getId(), Progress.NEW);
-        Subtask subtask21 = new Subtask("Подзадача21", "Подзадача21", epic2.getId(), Progress.NEW);
-        Subtask subtask22 = new Subtask("Подзадача22", "Подзадача212", epic2.getId(), Progress.NEW);
-
-        taskManager.addTask(subtask11);
-        taskManager.addTask(subtask21);
-        taskManager.addTask(subtask22);
-
         while (true) {
             printMenu();
             String command = scanner.next();
