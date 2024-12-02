@@ -2,10 +2,10 @@ import java.util.Scanner;
 
 public class Main {
     static Scanner scanner;
-    static TaskManager taskManager;
+    static InMemoryTaskManager inMemoryTaskManager;
 
     public static void main(String[] args) {
-        taskManager = new TaskManager();
+        inMemoryTaskManager = new InMemoryTaskManager();
         scanner = new Scanner(System.in);
 
         while (true) {
@@ -16,9 +16,9 @@ public class Main {
                     printAllTasks();
                     break;
                 case "2":
-                    taskManager.removeAllTasks();
-                    taskManager.removeAllSubtasks();
-                    taskManager.removeAllEpics();
+                    inMemoryTaskManager.removeAllTasks();
+                    inMemoryTaskManager.removeAllSubtasks();
+                    inMemoryTaskManager.removeAllEpics();
                     break;
                 case "3":
                     createTask(scanner);
@@ -33,6 +33,9 @@ public class Main {
                     getSubtasksEpic(scanner);
                     break;
                 case "7":
+                    System.out.println(inMemoryTaskManager.getHistory());
+                    break;
+                case "8":
                     return;
                 default:
                     System.out.println("Такой команды нет");
@@ -42,9 +45,9 @@ public class Main {
     }
 
     private static void printAllTasks() {
-        System.out.println(taskManager.getTasks());
-        System.out.println(taskManager.getEpics());
-        System.out.println(taskManager.getSubtasks());
+        System.out.println(inMemoryTaskManager.getTasks());
+        System.out.println(inMemoryTaskManager.getEpics());
+        System.out.println(inMemoryTaskManager.getSubtasks());
     }
 
     private static void printMenu() {
@@ -55,7 +58,8 @@ public class Main {
         System.out.println("4 - Обновить задачу");
         System.out.println("5 - Удалить задачу по ID");
         System.out.println("6 - Получить список всех подзадач эпика");
-        System.out.println("7 - выход");
+        System.out.println("7 - Просмотреть историю");
+        System.out.println("8 - выход");
     }
 
     private static void createTask(Scanner scanner) {
@@ -71,7 +75,7 @@ public class Main {
         if (command.equals("да")) {
             System.out.println("задача добавлена");
             Epic epic = new Epic(name, description);
-            taskManager.addTask(epic);
+            inMemoryTaskManager.addTask(epic);
             System.out.println("введите подзадачи разделяя их enter");
             System.out.println("чтобы перестать вводить задачи, введите пустые строки в поля описания и названия новой задачи");
 
@@ -85,7 +89,7 @@ public class Main {
                 System.out.println("введите описание " + i + " подзадачи");
                 descriptionST = scanner.nextLine();
                 if (!nameST.isEmpty() && !descriptionST.isEmpty()) {
-                    taskManager.addTask(new Subtask(nameST, descriptionST, epic.getId(), Progress.NEW));
+                    inMemoryTaskManager.addTask(new Subtask(nameST, descriptionST, epic.getId(), Progress.NEW));
                     System.out.println("подзадача добавлена");
                 } else {
                     break;
@@ -94,7 +98,7 @@ public class Main {
 
         } else {
             Task task = new Task(name, description, Progress.NEW);
-            taskManager.addTask(task);
+            inMemoryTaskManager.addTask(task);
             System.out.println("задача добавлена");
         }
     }
@@ -108,15 +112,15 @@ public class Main {
         System.out.println("3.Эпик");
         int typeTask = Integer.parseInt(scanner.next());
         if(typeTask == 1){
-            Task task = new Task(taskManager.getTask(id).getName(), taskManager.getTask(id).getDescription(), Progress.NEW);
+            Task task = new Task(inMemoryTaskManager.getTask(id).getName(), inMemoryTaskManager.getTask(id).getDescription(), Progress.NEW);
             task.setId(id);
             changeTask(scanner, task, id);
         }else if (typeTask == 2){
-            Subtask subtask = new Subtask(taskManager.getSubtask(id).getName(), taskManager.getSubtask(id).getDescription(), taskManager.getSubtask(id).getEpic(), Progress.NEW);
+            Subtask subtask = new Subtask(inMemoryTaskManager.getSubtask(id).getName(), inMemoryTaskManager.getSubtask(id).getDescription(), inMemoryTaskManager.getSubtask(id).getEpic(), Progress.NEW);
             subtask.setId(id);
             changeTask(scanner, subtask, id);
         } else if (typeTask == 3) {
-            Epic epic = new Epic(taskManager.getEpic(id).getName(), taskManager.getEpic(id).getDescription());
+            Epic epic = new Epic(inMemoryTaskManager.getEpic(id).getName(), inMemoryTaskManager.getEpic(id).getDescription());
             epic.setId(id);
             changeTask(scanner, epic, id);
         }else {
@@ -133,11 +137,11 @@ public class Main {
         System.out.println("Введите id задачи, которую нужно удалить: ");
         int id = scanner.nextInt();
         if (typeTask ==1){
-            taskManager.removeTask(id);
+            inMemoryTaskManager.removeTask(id);
         } else if (typeTask == 2) {
-            taskManager.removeSubtask(id);
+            inMemoryTaskManager.removeSubtask(id);
         } else if (typeTask == 3) {
-            taskManager.removeEpic(id);
+            inMemoryTaskManager.removeEpic(id);
         }else {
             System.out.println("такой команды нет");
         }
@@ -148,11 +152,11 @@ public class Main {
         printAllTasks();
         System.out.println("введите ID эпика: ");
         int id = scanner.nextInt();
-        System.out.println(taskManager.getSubtasks(id));
+        System.out.println(inMemoryTaskManager.getSubtasks(id));
     }
 
     private static void changeTask(Scanner scanner, Epic task, int id){
-        if (taskManager.getEpic(id) != null) {
+        if (inMemoryTaskManager.getEpic(id) != null) {
 
             System.out.println("Что вы хотите изменить?");
             System.out.println("1.Название задачи");
@@ -173,7 +177,7 @@ public class Main {
                     System.out.println("Описание задачи успешно изменено");
                     break;
             }
-            taskManager.updateTask(task);
+            inMemoryTaskManager.updateTask(task);
             System.out.println("Задача обновлена");
         } else {
             System.out.println("Задача с таким id не найдена");
@@ -181,7 +185,7 @@ public class Main {
     }
 
     private static void changeTask(Scanner scanner, Subtask task, int id){
-        if (taskManager.getSubtask(id) != null) {
+        if (inMemoryTaskManager.getSubtask(id) != null) {
 
             System.out.println("Что вы хотите изменить?");
             System.out.println("1.Название задачи");
@@ -209,7 +213,7 @@ public class Main {
                     System.out.println("Прогресс задачи успешно изменён");
                     break;
             }
-            taskManager.updateTask(task);
+            inMemoryTaskManager.updateTask(task);
             System.out.println("Задача обновлена");
         } else {
             System.out.println("Задача с таким id не найдена");
@@ -217,7 +221,7 @@ public class Main {
     }
 
     private static void changeTask(Scanner scanner, Task task, int id){
-        if (taskManager.getTask(id) != null) {
+        if (inMemoryTaskManager.getTask(id) != null) {
 
             System.out.println("Что вы хотите изменить?");
             System.out.println("1.Название задачи");
@@ -245,7 +249,7 @@ public class Main {
                     System.out.println("Прогресс задачи успешно изменён");
                     break;
             }
-            taskManager.updateTask(task);
+            inMemoryTaskManager.updateTask(task);
             System.out.println("Задача обновлена");
         } else {
             System.out.println("Задача с таким id не найдена");
