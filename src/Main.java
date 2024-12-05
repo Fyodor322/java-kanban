@@ -2,11 +2,32 @@ import java.util.Scanner;
 
 public class Main {
     static Scanner scanner;
-    static InMemoryTaskManager inMemoryTaskManager;
+    static TaskManager inMemoryTaskManager;
+    static HistoryManager historyManager;
 
     public static void main(String[] args) {
-        inMemoryTaskManager = new InMemoryTaskManager();
+        inMemoryTaskManager = Managers.getDefault();
+        historyManager = Managers.getDefaultHistory();
         scanner = new Scanner(System.in);
+
+        Task task1 = new Task("задача1", "опЗадачи1", Progress.NEW);
+        Task task2 = new Task("задача2", "опЗадачи2", Progress.NEW);
+
+        Epic epic1 = new Epic("эпик1", "опЭпик1");
+        Epic epic2 = new Epic("эпик2", "опЭпик2");
+
+        inMemoryTaskManager.addTask(task1);
+        inMemoryTaskManager.addTask(task2);
+        inMemoryTaskManager.addTask(epic1);
+        inMemoryTaskManager.addTask(epic2);
+
+        Subtask subtask11 = new Subtask("Подзадача11", "Подзадача11", epic1.getId(), Progress.NEW);
+        Subtask subtask21 = new Subtask("Подзадача21", "Подзадача21", epic2.getId(), Progress.NEW);
+        Subtask subtask22 = new Subtask("Подзадача22", "Подзадача22", epic2.getId(), Progress.NEW);
+
+        inMemoryTaskManager.addTask(subtask11);
+        inMemoryTaskManager.addTask(subtask21);
+        inMemoryTaskManager.addTask(subtask22);
 
         while (true) {
             printMenu();
@@ -33,7 +54,7 @@ public class Main {
                     getSubtasksEpic(scanner);
                     break;
                 case "7":
-                    System.out.println(inMemoryTaskManager.getHistory());
+                    System.out.println(historyManager.getHistory());
                     break;
                 case "8":
                     return;
@@ -48,6 +69,30 @@ public class Main {
         System.out.println(inMemoryTaskManager.getTasks());
         System.out.println(inMemoryTaskManager.getEpics());
         System.out.println(inMemoryTaskManager.getSubtasks());
+    }
+
+    private static void printAllTasks(TaskManager manager) {
+        System.out.println("Задачи:");
+        for (Task task : manager.getTasks()) {
+            System.out.println(task);
+        }
+        System.out.println("Эпики:");
+        for (Task epic : manager.getEpics()) {
+            System.out.println(epic);
+
+            for (Task task : manager.getSubtasks(epic.getId())) {
+                System.out.println("--> " + task);
+            }
+        }
+        System.out.println("Подзадачи:");
+        for (Task subtask : manager.getSubtasks()) {
+            System.out.println(subtask);
+        }
+
+        System.out.println("История:");
+        for (Task task : manager.getHistory()) {
+            System.out.println(task);
+        }
     }
 
     private static void printMenu() {

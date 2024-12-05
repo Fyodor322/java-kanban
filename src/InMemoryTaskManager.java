@@ -1,12 +1,12 @@
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
     private final HashMap<Integer, Subtask> subtasks;
     private final HashMap<Integer, Epic> epics;
     private final HashMap<Integer, Task> tasks;
-    private final ArrayList<Task> history;
+    private final InMemoryHistoryManager history;
 
     private int nextId = 1;
 
@@ -14,22 +14,22 @@ public class InMemoryTaskManager implements TaskManager {
         subtasks = new HashMap<>();
         epics = new HashMap<>();
         tasks = new HashMap<>();
-        history = new ArrayList<>(10);
+        history = new InMemoryHistoryManager();
     }
 
     @Override
-    public Collection<Subtask> getSubtasks() {
-        return subtasks.values();
+    public ArrayList<Subtask> getSubtasks() {
+        return new ArrayList<>(this.subtasks.values());
     }
 
     @Override
-    public Collection<Epic> getEpics() {
-        return epics.values();
+    public ArrayList<Epic> getEpics() {
+        return new ArrayList<>(this.epics.values());
     }
 
     @Override
-    public Collection<Task> getTasks(){
-        return tasks.values();
+    public ArrayList<Task> getTasks(){
+        return new ArrayList<>(this.tasks.values());
     }
 
     @Override
@@ -58,7 +58,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Task getTask(int id){
         if(tasks.get(id) != null) {
-            addHistory(tasks.get(id));
+            history.add(tasks.get(id));
             return tasks.get(id);
         }
         System.out.println("задача с таким id не найдена");
@@ -68,7 +68,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Subtask getSubtask(int id){
         if(subtasks.get(id) != null) {
-            addHistory(subtasks.get(id));
+            history.add(subtasks.get(id));
             return subtasks.get(id);
         }
         System.out.println("задача с таким id не найдена");
@@ -78,7 +78,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Epic getEpic(int id){
         if(epics.get(id) != null) {
-            addHistory(epics.get(id));
+            history.add(epics.get(id));
             return epics.get(id);
         }
         System.out.println("задача с таким id не найдена");
@@ -86,24 +86,33 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void addTask(Subtask subtask) {
-        subtask.setId(nextId++);
+    public int addTask(Subtask subtask) {
+        if(subtask.getId() < nextId){
+            subtask.setId(nextId++);
+        }
         Epic epic = epics.get(subtask.getEpic());
         epic.addSubtask(subtask.getId());
         subtasks.put(subtask.getId(), subtask);
         calculateProgress(epic);
+        return subtask.getId();
     }
 
     @Override
-    public void addTask(Epic epic) {
-        epic.setId(nextId++);
+    public int addTask(Epic epic) {
+        if(epic.getId() < nextId){
+            epic.setId(nextId++);
+        }
         epics.put(epic.getId(), epic);
+        return epic.getId();
     }
 
     @Override
-    public void addTask(Task task){
-        task.setId(nextId++);
+    public int addTask(Task task){
+        if(task.getId() < nextId){
+            task.setId(nextId++);
+        }
         tasks.put(task.getId(), task);
+        return task.getId();
     }
 
     @Override
@@ -167,17 +176,8 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Collection<Task> getHistory(){
-        return history;
-    }
-
-    private void addHistory(Task task){
-        if (history.size() >= 10){
-            history.removeFirst();
-            history.add(task);
-        }else {
-            history.add(task);
-        }
+    public List<Task> getHistory(){
+        return history.getHistory();
     }
 
     private void calculateProgress(Epic epic) {

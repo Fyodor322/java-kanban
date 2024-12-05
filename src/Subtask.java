@@ -1,15 +1,27 @@
 import java.util.Objects;
 
 public class Subtask extends Task{
-    private final int epicId;
+    private int epicId;
 
     public Subtask(String name, String description, int epicId, Progress progress) {
         super(name, description, progress);
-        this.epicId = epicId;
+        if(this.getId() != epicId){
+            this.epicId = epicId;
+        }else {
+            this.epicId = 0;
+        }
     }
 
     public int getEpic() {
         return epicId;
+    }
+
+    public boolean setEpicId(int epicId){
+        if (epicId == this.getId()){
+            return false;
+        }
+        this.epicId = epicId;
+        return true;
     }
 
     @Override

@@ -49,6 +49,7 @@ public class Task {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
+        if (task.id == this.id) return true;
         return Objects.equals(name, task.name) && Objects.equals(description, task.description) && progress == task.progress;
     }
 
