@@ -68,25 +68,16 @@ class InMemoryTaskManagerTest {
 
     @Test
     void tasksWithTheSpecifiedIdDoNotConflict(){
-        Task task2 = new Task("задача2", "опЗадачи2", Progress.NEW);
-        int idFirstTask = 1;
-        int idSecondTask = 10;
-        task2.setId(idSecondTask);
+        task.setId(1);
+        Epic epic1 = new Epic("epic1", "disEpic1");
+        epic1.setId(1);
+        Subtask subtask = new Subtask("ST", "DisST", 1, Progress.NEW);
+        subtask.setId(1);
 
         taskManager.addTask(task);
-        taskManager.addTask(task2);
 
-        assertNotNull(taskManager.getTasks().get(1), "задача с заданным id не сохранилась");
-        assertNotNull(taskManager.getTask(idSecondTask), "заданный id задачи не сохранился");
-
-        taskManager.removeAllTasks();
-        task2.setId(idFirstTask);
-        taskManager.addTask(task);
-        taskManager.addTask(task2);
-
-        assertEquals(2, taskManager.getTasks().size(), "неверное количество задач");
-        assertNotEquals(taskManager.getTask(idFirstTask + 1), task2, "id задачи не изменился");
-
+        assertFalse(taskManager.updateTask(epic1), "Нельзя обновить Task объектом с типом Epic");
+        assertFalse(taskManager.updateTask(subtask), "Нельзя обновить Task объектом с типом Subtask");
     }
 
     @Test

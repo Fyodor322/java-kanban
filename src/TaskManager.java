@@ -26,7 +26,7 @@ public interface TaskManager {
 
     int addTask(Task task);
 
-    void updateTask(Task task);
+    <T extends Task> boolean updateTask(T task);
 
     void removeTask(int id);
 

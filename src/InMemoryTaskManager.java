@@ -115,25 +115,45 @@ public class InMemoryTaskManager implements TaskManager {
         return task.getId();
     }
 
+
     @Override
-    public void updateTask(Task task){
+    public <T extends Task> boolean updateTask(T task){
         int id = task.getId();
-        if(epics.containsKey(id)){
-            Epic epic = getEpic(id);
-            epic.setName(task.getName());
-            epic.setDescription(task.getDescription());
-            epics.put(id, epic);
-        } else if(tasks.containsKey(id)){
-            tasks.put(id, task);
-        } else if(subtasks.containsKey(id)){
-            Subtask subtask = getSubtask(id);
-            subtask.setName(task.getName());
-            subtask.setDescription(task.getDescription());
-            subtask.setProgress(task.getProgress());
-            subtasks.put(id, subtask);
-            calculateProgress(epics.get(subtask.getEpic()));
-        } else{
-            System.out.println("задача с таким id не найдена");
+        if(task instanceof Epic){
+            if(epics.containsKey(id)){
+                Epic epic = getEpic(id);
+                epic.setName(task.getName());
+                epic.setDescription(task.getDescription());
+                epics.put(id, epic);
+                return true;
+            }
+            else{
+                System.out.println("эпик с таким id не найден");
+                return false;
+            }
+        } else if (task instanceof Subtask) {
+            if(subtasks.containsKey(id)) {
+                Subtask subtask = getSubtask(id);
+                subtask.setName(task.getName());
+                subtask.setDescription(task.getDescription());
+                subtask.setProgress(task.getProgress());
+                subtasks.put(id, subtask);
+                calculateProgress(epics.get(subtask.getEpic()));
+                return true;
+            }
+            else{
+                System.out.println("подзадача с таким id не найдена");
+                return false;
+            }
+        }else {
+            if(tasks.containsKey(id)){
+                tasks.put(id, task);
+                return true;
+            }
+            else{
+                System.out.println("задача с таким id не найдена");
+                return false;
+            }
         }
     }
 
