@@ -1,6 +1,14 @@
+package tests;
+
+import historyManager.HistoryManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import taskManager.*;
+import tasks.*;
+import managers.*;
+import enums.*;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,8 +84,8 @@ class InMemoryTaskManagerTest {
 
         taskManager.addTask(task);
 
-        assertFalse(taskManager.updateTask(epic1), "Нельзя обновить Task объектом с типом Epic");
-        assertFalse(taskManager.updateTask(subtask), "Нельзя обновить Task объектом с типом Subtask");
+        assertFalse(taskManager.updateTask(epic1), "Нельзя обновить tasks.Task объектом с типом tasks.Epic");
+        assertFalse(taskManager.updateTask(subtask), "Нельзя обновить tasks.Task объектом с типом tasks.Subtask");
     }
 
     @Test
@@ -107,8 +115,8 @@ class InMemoryTaskManagerTest {
         assertEquals(taskManager.getEpic(12).getProgress(), epic.getProgress(), "прогресс не сохранился");
         assertEquals(taskManager.getSubtask(13).getProgress(), subtask.getProgress(), "прогресс не сохранился");
 
-        assertTrue(taskManager.getEpic(12).getSubtasks().containsAll(epic.getSubtasks()) && epic.getSubtasks().containsAll(taskManager.getEpic(12).getSubtasks()), "сабтаски эпиков не сохранились");
-        assertEquals(taskManager.getSubtask(13).getEpic(), subtask.getEpic(), "эпики сабтасков не сохранились");
+        assertTrue(taskManager.getEpic(12).getSubtasks().containsAll(epic.getSubtasks()) && epic.getSubtasks().containsAll(taskManager.getEpic(12).getSubtasks()), "подзадачи эпиков не сохранились");
+        assertEquals(taskManager.getSubtask(13).getEpic(), subtask.getEpic(), "эпики подзадач не сохранились");
     }
 
     @Test

@@ -1,6 +1,9 @@
+package tasks;
+import enums.*;
+
 import java.util.Objects;
 
-public class Subtask extends Task{
+public class Subtask extends Task {
     private int epicId;
 
     public Subtask(String name, String description, int epicId, Progress progress) {
@@ -26,7 +29,7 @@ public class Subtask extends Task{
 
     @Override
     public String toString() {
-        return "Task{" +
+        return "tasks.Task{" +
                 "name='" + getName() + '\'' +
                 ", description.length='" + getDescription().length() + '\'' +
                 ", progress=" + getProgress() +

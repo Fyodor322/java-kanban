@@ -1,9 +1,11 @@
+package tasks;
+import enums.*;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Epic extends Task{
+public class Epic extends Task {
     private final ArrayList<Integer> subtasks;
-
 
     public Epic(String name, String description) {
         super(name, description, Progress.NEW);
@@ -30,7 +32,7 @@ public class Epic extends Task{
 
     @Override
     public String toString() {
-        return "Task{" +
+        return "tasks.Task{" +
                 "name='" + getName() + '\'' +
                 ", description.length='" + getDescription().length() + '\'' +
                 ", id=" + getId() +
