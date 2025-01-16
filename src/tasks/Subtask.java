@@ -8,7 +8,7 @@ public class Subtask extends Task {
 
     public Subtask(String name, String description, int epicId, Progress progress) {
         super(name, description, progress);
-        if(this.getId() != epicId){
+        if (this.getId() != epicId) {
             this.epicId = epicId;
         }else {
             this.epicId = 0;
@@ -19,8 +19,8 @@ public class Subtask extends Task {
         return epicId;
     }
 
-    public boolean setEpicId(int epicId){
-        if (epicId == this.getId()){
+    public boolean setEpicId(int epicId) {
+        if (epicId == this.getId()) {
             return false;
         }
         this.epicId = epicId;
