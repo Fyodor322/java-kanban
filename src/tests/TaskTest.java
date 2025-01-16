@@ -7,7 +7,7 @@ import enums.*;
 
 class TaskTest {
     @Test
-    void equalIfTheIdIsEqual(){
+    void equalIfTheIdIsEqual() {
         Task task1 = new Task("задача1", "опЗадачи1", Progress.NEW);
         Task task2 = new Task("задача2", "опЗадачи2", Progress.NEW);
         task1.setId(1);
@@ -16,7 +16,7 @@ class TaskTest {
     }
 
     @Test
-    void TheHeirsAreEqualIfTheIdIsEqual(){
+    void TheHeirsAreEqualIfTheIdIsEqual() {
         Task epic1 = new Epic("задача1", "опЗадачи1");
         Task epic2 = new Epic("задача2", "опЗадачи2");
         epic1.setId(1);

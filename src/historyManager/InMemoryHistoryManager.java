@@ -1,4 +1,5 @@
 package historyManager;
+
 import tasks.Task;
 
 import java.util.*;
@@ -13,7 +14,7 @@ public class InMemoryHistoryManager implements HistoryManager {
         history = new HashMap<>();
     }
 
-    public void linkLast(Task task){
+    public void linkLast(Task task) {
         final Node oldTail = tail;
         Node newNode = new Node(oldTail, task, null);
         tail = newNode;
@@ -23,10 +24,10 @@ public class InMemoryHistoryManager implements HistoryManager {
             oldTail.next = newNode;
     }
 
-    public List<Task> getTasks(){
+    public List<Task> getTasks() {
         List<Task> tasks = new ArrayList<>();
-        if (head != null){
-            for (Node x = head; x != null; x = x.next){
+        if (head != null) {
+            for (Node x = head; x != null; x = x.next) {
                 tasks.add(x.task);
             }
         }
@@ -34,7 +35,7 @@ public class InMemoryHistoryManager implements HistoryManager {
         return tasks;
     }
 
-    private void removeNode(Node o){
+    private void removeNode(Node o) {
         if (o == null) {
             for (Node x = head; x != null; x = x.next) {
                 if (x.task == null) {
@@ -73,31 +74,28 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     @Override
-    public void add(Task task){
+    public void add(Task task) {
         removeNode(new Node(tail, task, null));
         linkLast(task);
         history.put(task.getId(), tail);
     }
 
     @Override
-    public void remove(int id){
+    public void remove(int id) {
         removeNode(history.get(id));
         history.remove(id);
     }
 
-    public void remove(Set<Integer> listId){
-        for(Integer id : listId){
+    public void remove(Set<Integer> listId) {
+        for (Integer id : listId) {
             remove(id);
         }
     }
 
     @Override
-    public List<Task> getHistory(){
+    public List<Task> getHistory() {
         return getTasks();
     }
-
-
-
 
 
 }

@@ -6,7 +6,7 @@ import tasks.Epic;
 
 class EpicTest {
     @Test
-    void addYourselfToYourSubtasks(){
+    void addYourselfToYourSubtasks() {
         Epic epic1 = new Epic("эпик1", "опЭпик1");
         epic1.setId(1);
         epic1.addSubtask(1);

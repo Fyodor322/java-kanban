@@ -24,7 +24,7 @@ class InMemoryTaskManagerTest {
     static Subtask subtask;
 
     @BeforeAll
-    static void beforeAll(){
+    static void beforeAll() {
         task = new Task("задача1", "опЗадачи1", Progress.NEW);
         epic = new Epic("эпик1", "опЭпик1");
         subtask = new Subtask("Подзадача11", "Подзадача11", epic.getId(), Progress.NEW);
@@ -67,7 +67,7 @@ class InMemoryTaskManagerTest {
     }
 
     @BeforeEach
-    void clearTaskManager(){
+    void clearTaskManager() {
         taskManager.removeAllTasks();
         taskManager.removeAllEpics();
         taskManager.removeAllSubtasks();
@@ -75,7 +75,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void tasksWithTheSpecifiedIdDoNotConflict(){
+    void tasksWithTheSpecifiedIdDoNotConflict() {
         task.setId(1);
         Epic epic1 = new Epic("epic1", "disEpic1");
         epic1.setId(1);
@@ -89,7 +89,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void checkingForImmutabilityWhenAddingToTheManager(){
+    void checkingForImmutabilityWhenAddingToTheManager() {
         task.setId(11);
         epic.setId(12);
         subtask.setId(13);
@@ -120,7 +120,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void testHistory(){
+    void testHistory() {
         historyManager.add(task);
         final List<Task> history = historyManager.getHistory();
         assertNotNull(history, "История пустая.");

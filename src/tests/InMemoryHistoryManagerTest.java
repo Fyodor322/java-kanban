@@ -24,7 +24,7 @@ class InMemoryHistoryManagerTest {
     static Subtask subtask;
 
     @BeforeAll
-    static void beforeAll(){
+    static void beforeAll() {
         task = new Task("задача1", "опЗадачи1", Progress.NEW);
         epic = new Epic("эпик1", "опЭпик1");
         taskManager.addTask(task);
@@ -60,7 +60,7 @@ class InMemoryHistoryManagerTest {
     @Test
     void remove() {
         historyManager.remove(2);
-        for (Task elTask : historyManager.getHistory()){
+        for (Task elTask : historyManager.getHistory()) {
             assertEquals(task, elTask, "подзадача эпика не удаляется при удалении эпика");
         }
         taskManager.addTask(epic);
@@ -70,7 +70,7 @@ class InMemoryHistoryManagerTest {
         listNum.add(3);
 
         historyManager.remove(listNum);
-        for (Task elTask : historyManager.getHistory()){
+        for (Task elTask : historyManager.getHistory()) {
             assertEquals(epic, elTask, "удаление сразу нескольких элементов не работает");
         }
     }
