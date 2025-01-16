@@ -1,6 +1,6 @@
 package tests;
 
-import history_manager.*;
+import historymanager.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

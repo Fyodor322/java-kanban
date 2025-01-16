@@ -1,7 +1,7 @@
 package tests;
 
 import enums.Progress;
-import history_manager.*;
+import historymanager.*;
 import managers.Managers;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
