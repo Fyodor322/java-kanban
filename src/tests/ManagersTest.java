@@ -3,7 +3,7 @@ package tests;
 import history_manager.HistoryManager;
 import history_manager.InMemoryHistoryManager;
 import org.junit.jupiter.api.Test;
-import taskManager.*;
+import task_manager.*;
 import managers.*;
 
 import static org.junit.jupiter.api.Assertions.*;
