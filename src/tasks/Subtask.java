@@ -1,4 +1,5 @@
 package tasks;
+
 import enums.*;
 
 import java.util.Objects;
@@ -10,7 +11,7 @@ public class Subtask extends Task {
         super(name, description, progress);
         if (this.getId() != epicId) {
             this.epicId = epicId;
-        }else {
+        } else {
             this.epicId = 0;
         }
     }
