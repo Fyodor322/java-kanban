@@ -52,7 +52,6 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     private void unlink(Node x) {
-        final Task element = x.task;
         final Node next = x.next;
         final Node prev = x.prev;
 
