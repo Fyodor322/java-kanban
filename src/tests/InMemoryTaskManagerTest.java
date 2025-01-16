@@ -4,7 +4,7 @@ import history_manager.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import task_manager.*;
+import taskmanager.*;
 import tasks.*;
 import managers.*;
 import enums.*;

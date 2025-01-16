@@ -5,7 +5,7 @@ import history_manager.*;
 import managers.Managers;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import task_manager.TaskManager;
+import taskmanager.TaskManager;
 import tasks.Epic;
 import tasks.Subtask;
 import tasks.Task;
