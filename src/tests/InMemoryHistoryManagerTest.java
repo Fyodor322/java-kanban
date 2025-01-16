@@ -1,10 +1,9 @@
 package tests;
 
 import enums.Progress;
-import historyManager.*;
+import history_manager.*;
 import managers.Managers;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import taskManager.TaskManager;
 import tasks.Epic;

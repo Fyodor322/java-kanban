@@ -1,7 +1,7 @@
 package managers;
 
-import historyManager.HistoryManager;
-import historyManager.InMemoryHistoryManager;
+import history_manager.HistoryManager;
+import history_manager.InMemoryHistoryManager;
 import taskManager.InMemoryTaskManager;
 import taskManager.TaskManager;
 

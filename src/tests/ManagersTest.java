@@ -1,6 +1,6 @@
 package tests;
 
-import historyManager.HistoryManager;
+import history_manager.HistoryManager;
 import org.junit.jupiter.api.Test;
 import taskManager.*;
 import managers.*;

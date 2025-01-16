@@ -1,6 +1,6 @@
 package taskManager;
 
-import historyManager.HistoryManager;
+import history_manager.HistoryManager;
 import tasks.*;
 import enums.*;
 import managers.*;
