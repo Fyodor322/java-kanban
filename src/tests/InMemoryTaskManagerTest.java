@@ -1,6 +1,6 @@
 package tests;
 
-import historyManager.HistoryManager;
+import historyManager.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -123,8 +123,8 @@ class InMemoryTaskManagerTest {
     void testHistory(){
         historyManager.add(task);
         final List<Task> history = historyManager.getHistory();
-        assertNotNull(history, "История не пустая.");
-        assertEquals(1, history.size(), "История не пустая.");
+        assertNotNull(history, "История пустая.");
+        assertEquals(1, history.size(), "История пустая.");
         assertEquals(historyManager.getHistory().getFirst(), task, "история не сохраняет задачу");
         task.setName("задача2");
         boolean result = historyManager.getHistory().getFirst().getName().equals(task.getName()) &&

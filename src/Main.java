@@ -42,7 +42,7 @@ public class Main {
             String command = scanner.next();
             switch (command) {
                 case "1":
-                    printAllTasks();
+                    printAllTasks(inMemoryTaskManager);
                     break;
                 case "2":
                     inMemoryTaskManager.removeAllTasks();
@@ -71,12 +71,6 @@ public class Main {
                     break;
             }
         }
-    }
-
-    private static void printAllTasks() {
-        System.out.println(inMemoryTaskManager.getTasks());
-        System.out.println(inMemoryTaskManager.getEpics());
-        System.out.println(inMemoryTaskManager.getSubtasks());
     }
 
     private static void printAllTasks(TaskManager manager) {
@@ -202,7 +196,7 @@ public class Main {
     }
 
     private static void getSubtasksEpic(Scanner scanner) {
-        printAllTasks();
+        printAllTasks(inMemoryTaskManager);
         System.out.println("введите ID эпика: ");
         int id = scanner.nextInt();
         System.out.println(inMemoryTaskManager.getSubtasks(id));
