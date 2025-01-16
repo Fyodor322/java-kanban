@@ -16,17 +16,17 @@ public class Epic extends Task {
         return subtasks;
     }
 
-    public void addSubtask(Integer subtask){
-        if (subtask != this.getId()){
+    public void addSubtask(Integer subtask) {
+        if (subtask != this.getId()) {
             subtasks.add(subtask);
         }
     }
 
-    public void removeSubtask(Integer subtask){
+    public void removeSubtask(Integer subtask) {
         subtasks.remove(subtask);
     }
 
-    public void clearSubtasks(){
+    public void clearSubtasks() {
         subtasks.clear();
     }
 
