@@ -1,6 +1,7 @@
 package tests;
 
 import history_manager.HistoryManager;
+import history_manager.InMemoryHistoryManager;
 import org.junit.jupiter.api.Test;
 import taskManager.*;
 import managers.*;
@@ -17,7 +18,7 @@ class ManagersTest {
         assertNotNull(taskManager, "getDefault возвращает null");
         assertNotNull(historyManager, "getDefaultHistory возвращает null");
 
-        assertEquals(TaskManager.class, taskManager.getClass(), "getDefault() возвращает не тот тип");
-        assertEquals(HistoryManager.class, historyManager.getClass(), "getDefaultHistory() возвращает не тот тип");
+        assertEquals(InMemoryTaskManager.class, taskManager.getClass(), "getDefault() возвращает не тот тип");
+        assertEquals(InMemoryHistoryManager.class, historyManager.getClass(), "getDefaultHistory() возвращает не тот тип");
     }
 }

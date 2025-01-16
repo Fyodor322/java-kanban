@@ -16,7 +16,7 @@ class TaskTest {
     }
 
     @Test
-    void TheHeirsAreEqualIfTheIdIsEqual() {
+    void theHeirsAreEqualIfTheIdIsEqual() {
         Task epic1 = new Epic("задача1", "опЗадачи1");
         Task epic2 = new Epic("задача2", "опЗадачи2");
         epic1.setId(1);
