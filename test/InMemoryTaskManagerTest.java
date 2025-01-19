@@ -18,7 +18,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class InMemoryTaskManagerTest {
 
     static TaskManager taskManager = Managers.getDefault();
-    HistoryManager historyManager = Managers.getDefaultHistory();
     static Task task;
     static Epic epic;
     static Subtask subtask;
@@ -74,11 +73,19 @@ class InMemoryTaskManagerTest {
         taskManager.removeAllTasks();
         taskManager.removeAllEpics();
         taskManager.removeAllSubtasks();
-        historyManager.getHistory().clear();
     }
 
     @Test
     void tasksWithTheSpecifiedIdDoNotConflict() {
+        task = new Task("задача1", "опЗадачи1", Progress.NEW);
+        epic = new Epic("эпик1", "опЭпик1");
+
+        taskManager.addTask(task);
+        taskManager.addTask(epic);
+
+        subtask = new Subtask("Подзадача11", "Подзадача11", epic.getId(), Progress.NEW);
+        taskManager.addTask(subtask);
+
         task.setId(1);
         Epic epic1 = new Epic("epic1", "disEpic1");
         epic1.setId(1);
