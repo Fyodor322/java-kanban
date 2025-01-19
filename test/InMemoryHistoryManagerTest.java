@@ -1,4 +1,3 @@
-package tests;
 
 import enums.Progress;
 import historymanager.*;

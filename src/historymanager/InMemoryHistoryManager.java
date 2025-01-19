@@ -4,11 +4,22 @@ import tasks.Task;
 
 import java.util.*;
 
-
 public class InMemoryHistoryManager implements HistoryManager {
     private final HashMap<Integer, Node> history;
     private Node head;
     private Node tail;
+
+    private static class Node {
+        Task task;
+        public Node next;
+        public Node prev;
+
+        public Node(Node prev, Task task, Node next) {
+            this.task = task;
+            this.next = next;
+            this.prev = prev;
+        }
+    }
 
     public InMemoryHistoryManager() {
         history = new HashMap<>();
@@ -27,27 +38,18 @@ public class InMemoryHistoryManager implements HistoryManager {
     public List<Task> getTasks() {
         List<Task> tasks = new ArrayList<>();
         if (head != null) {
-            for (Node x = head; x != null; x = x.next) {
-                tasks.add(x.task);
-            }
+            return List.of();
         }
-
+        for (Node x = head; x != null; x = x.next) {
+            tasks.add(x.task);
+        }
         return tasks;
     }
 
     private void removeNode(Node o) {
-        if (o == null) {
-            for (Node x = head; x != null; x = x.next) {
-                if (x.task == null) {
-                    unlink(x);
-                }
-            }
-        } else {
-            for (Node x = head; x != null; x = x.next) {
-                if (x.task.equals(o.task)) {
-                    unlink(x);
-                }
-            }
+        if (o != null) {
+            history.remove(o.task.getId());
+            unlink(o);
         }
     }
 
@@ -74,7 +76,9 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public void add(Task task) {
-        removeNode(new Node(tail, task, null));
+        if (history.containsKey(task.getId())) {
+            removeNode(history.get(task.getId()));
+        }
         linkLast(task);
         history.put(task.getId(), tail);
     }
@@ -95,6 +99,5 @@ public class InMemoryHistoryManager implements HistoryManager {
     public List<Task> getHistory() {
         return getTasks();
     }
-
 
 }
