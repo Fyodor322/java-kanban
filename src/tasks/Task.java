@@ -1,4 +1,5 @@
 package tasks;
+
 import enums.*;
 
 import java.util.Objects;
@@ -31,7 +32,7 @@ public class Task {
         return id;
     }
 
-    public void setId(int id){
+    public void setId(int id) {
         this.id = id;
     }
 

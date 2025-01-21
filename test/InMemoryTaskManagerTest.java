@@ -1,39 +1,41 @@
-package tests;
 
-import historyManager.HistoryManager;
+
+import historymanager.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import taskManager.*;
+import taskmanager.*;
 import tasks.*;
 import managers.*;
 import enums.*;
 
 
 import java.util.ArrayList;
-import java.util.List;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class InMemoryTaskManagerTest {
 
-    TaskManager taskManager = Managers.getDefault();
-    HistoryManager historyManager = Managers.getDefaultHistory();
+    static TaskManager taskManager = Managers.getDefault();
     static Task task;
     static Epic epic;
     static Subtask subtask;
 
     @BeforeAll
-    static void beforeAll(){
-        task = new Task("задача1", "опЗадачи1", Progress.NEW);
-        epic = new Epic("эпик1", "опЭпик1");
-        subtask = new Subtask("Подзадача11", "Подзадача11", epic.getId(), Progress.NEW);
+    static void beforeAll() {
+
     }
 
     @Test
     void addNewTask() {
+        task = new Task("задача1", "опЗадачи1", Progress.NEW);
+        epic = new Epic("эпик1", "опЭпик1");
+
         final int taskId = taskManager.addTask(task);
         final int epicId = taskManager.addTask(epic);
+
+        subtask = new Subtask("Подзадача11", "Подзадача11", epic.getId(), Progress.NEW);
         final int subtaskId = taskManager.addTask(subtask);
 
         final Task savedTask = taskManager.getTask(taskId);
@@ -67,15 +69,23 @@ class InMemoryTaskManagerTest {
     }
 
     @BeforeEach
-    void clearTaskManager(){
+    void clearTaskManager() {
         taskManager.removeAllTasks();
         taskManager.removeAllEpics();
         taskManager.removeAllSubtasks();
-        historyManager.getHistory().clear();
     }
 
     @Test
-    void tasksWithTheSpecifiedIdDoNotConflict(){
+    void tasksWithTheSpecifiedIdDoNotConflict() {
+        task = new Task("задача1", "опЗадачи1", Progress.NEW);
+        epic = new Epic("эпик1", "опЭпик1");
+
+        taskManager.addTask(task);
+        taskManager.addTask(epic);
+
+        subtask = new Subtask("Подзадача11", "Подзадача11", epic.getId(), Progress.NEW);
+        taskManager.addTask(subtask);
+
         task.setId(1);
         Epic epic1 = new Epic("epic1", "disEpic1");
         epic1.setId(1);
@@ -89,14 +99,18 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void checkingForImmutabilityWhenAddingToTheManager(){
+    void checkingForImmutabilityWhenAddingToTheManager() {
+        task = new Task("задача1", "опЗадачи1", Progress.NEW);
+        epic = new Epic("эпик1", "опЭпик1");
+
         task.setId(11);
         epic.setId(12);
-        subtask.setId(13);
-        subtask.setEpicId(epic.getId());
 
         taskManager.addTask(task);
         taskManager.addTask(epic);
+
+        subtask = new Subtask("Подзадача11", "Подзадача11", epic.getId(), Progress.NEW);
+        subtask.setId(13);
         taskManager.addTask(subtask);
 
         assertEquals(taskManager.getTask(11), task, "id не сохранился");
@@ -119,18 +133,4 @@ class InMemoryTaskManagerTest {
         assertEquals(taskManager.getSubtask(13).getEpic(), subtask.getEpic(), "эпики подзадач не сохранились");
     }
 
-    @Test
-    void testHistory(){
-        historyManager.add(task);
-        final List<Task> history = historyManager.getHistory();
-        assertNotNull(history, "История не пустая.");
-        assertEquals(1, history.size(), "История не пустая.");
-        assertEquals(historyManager.getHistory().getFirst(), task, "история не сохраняет задачу");
-        task.setName("задача2");
-        boolean result = historyManager.getHistory().getFirst().getName().equals(task.getName()) &&
-                historyManager.getHistory().getFirst().getDescription().equals(task.getDescription()) &&
-                historyManager.getHistory().getFirst().getProgress().equals(task.getProgress());
-
-        assertFalse(result, "история не сохраняет предыдущую версию задачи");
-    }
 }

@@ -1,5 +1,6 @@
-package taskManager;
-import historyManager.HistoryManager;
+package taskmanager;
+
+import historymanager.HistoryManager;
 import tasks.*;
 import enums.*;
 import managers.*;
@@ -35,39 +36,39 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public ArrayList<Task> getTasks(){
+    public ArrayList<Task> getTasks() {
         return new ArrayList<>(this.tasks.values());
     }
 
     @Override
     public void removeAllTasks() {
         tasks.clear();
-        history.removeAllTasks();
+        history.remove(tasks.keySet());
         System.out.println("Все задачи удалены");
     }
 
     @Override
-    public void removeAllSubtasks(){
-        for (Epic epic : epics.values()){
+    public void removeAllSubtasks() {
+        for (Epic epic : epics.values()) {
             epic.clearSubtasks();
             calculateProgress(epic);
         }
         subtasks.clear();
-        history.removeAllSubtasks();
+        history.remove(subtasks.keySet());
         System.out.println("Все подзадачи удалены");
     }
 
     @Override
-    public void removeAllEpics(){
+    public void removeAllEpics() {
         subtasks.clear();
         epics.clear();
-        history.removeAllEpics();
+        history.remove(epics.keySet());
         System.out.println("Все эпики удалены");
     }
 
     @Override
-    public Task getTask(int id){
-        if(tasks.get(id) != null) {
+    public Task getTask(int id) {
+        if (tasks.get(id) != null) {
             history.add(tasks.get(id));
             return tasks.get(id);
         }
@@ -76,8 +77,8 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Subtask getSubtask(int id){
-        if(subtasks.get(id) != null) {
+    public Subtask getSubtask(int id) {
+        if (subtasks.get(id) != null) {
             history.add(subtasks.get(id));
             return subtasks.get(id);
         }
@@ -86,8 +87,8 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Epic getEpic(int id){
-        if(epics.get(id) != null) {
+    public Epic getEpic(int id) {
+        if (epics.get(id) != null) {
             history.add(epics.get(id));
             return epics.get(id);
         }
@@ -97,7 +98,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public int addTask(Subtask subtask) {
-        if(subtask.getId() < nextId){
+        if (subtask.getId() < nextId) {
             subtask.setId(nextId++);
         }
         Epic epic = epics.get(subtask.getEpic());
@@ -109,7 +110,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public int addTask(Epic epic) {
-        if(epic.getId() < nextId){
+        if (epic.getId() < nextId) {
             epic.setId(nextId++);
         }
         epics.put(epic.getId(), epic);
@@ -117,8 +118,8 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public int addTask(Task task){
-        if(task.getId() < nextId){
+    public int addTask(Task task) {
+        if (task.getId() < nextId) {
             task.setId(nextId++);
         }
         tasks.put(task.getId(), task);
@@ -127,22 +128,21 @@ public class InMemoryTaskManager implements TaskManager {
 
 
     @Override
-    public <T extends Task> boolean updateTask(T task){
+    public <T extends Task> boolean updateTask(T task) {
         int id = task.getId();
-        if(task instanceof Epic){
-            if(epics.containsKey(id)){
+        if (task instanceof Epic) {
+            if (epics.containsKey(id)) {
                 Epic epic = getEpic(id);
                 epic.setName(task.getName());
                 epic.setDescription(task.getDescription());
                 epics.put(id, epic);
                 return true;
-            }
-            else{
+            } else {
                 System.out.println("эпик с таким id не найден");
                 return false;
             }
         } else if (task instanceof Subtask) {
-            if(subtasks.containsKey(id)) {
+            if (subtasks.containsKey(id)) {
                 Subtask subtask = getSubtask(id);
                 subtask.setName(task.getName());
                 subtask.setDescription(task.getDescription());
@@ -150,17 +150,15 @@ public class InMemoryTaskManager implements TaskManager {
                 subtasks.put(id, subtask);
                 calculateProgress(epics.get(subtask.getEpic()));
                 return true;
-            }
-            else{
+            } else {
                 System.out.println("подзадача с таким id не найдена");
                 return false;
             }
-        }else {
-            if(tasks.containsKey(id)){
+        } else {
+            if (tasks.containsKey(id)) {
                 tasks.put(id, task);
                 return true;
-            }
-            else{
+            } else {
                 System.out.println("задача с таким id не найдена");
                 return false;
             }
@@ -169,14 +167,14 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void removeTask(int id) {
-        history.remove(tasks.get(id));
+        history.remove(id);
         tasks.remove(id);
         System.out.println("Задача удалена");
     }
 
     @Override
-    public void removeSubtask(int id){
-        history.remove(subtasks.get(id));
+    public void removeSubtask(int id) {
+        history.remove(id);
         Subtask subtask = subtasks.remove(id);
         Epic epic = epics.get(subtask.getEpic());
         epic.removeSubtask(id);
@@ -185,10 +183,11 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void removeEpic(int id){
-        history.remove(epics.get(id));
-        for (Integer subtaskId : epics.get(id).getSubtasks()){
+    public void removeEpic(int id) {
+        history.remove(id);
+        for (Integer subtaskId : epics.get(id).getSubtasks()) {
             subtasks.remove(subtaskId);
+            history.remove(subtaskId);
         }
         epics.remove(id);
         System.out.println("Задача удалена");
@@ -209,7 +208,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public List<Task> getHistory(){
+    public List<Task> getHistory() {
         return history.getHistory();
     }
 

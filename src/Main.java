@@ -1,7 +1,7 @@
 import enums.Progress;
-import historyManager.HistoryManager;
+import historymanager.HistoryManager;
 import managers.Managers;
-import taskManager.TaskManager;
+import taskmanager.TaskManager;
 import tasks.Epic;
 import tasks.Subtask;
 import tasks.Task;
@@ -42,7 +42,7 @@ public class Main {
             String command = scanner.next();
             switch (command) {
                 case "1":
-                    printAllTasks();
+                    printAllTasks(inMemoryTaskManager);
                     break;
                 case "2":
                     inMemoryTaskManager.removeAllTasks();
@@ -71,12 +71,6 @@ public class Main {
                     break;
             }
         }
-    }
-
-    private static void printAllTasks() {
-        System.out.println(inMemoryTaskManager.getTasks());
-        System.out.println(inMemoryTaskManager.getEpics());
-        System.out.println(inMemoryTaskManager.getSubtasks());
     }
 
     private static void printAllTasks(TaskManager manager) {
@@ -164,11 +158,11 @@ public class Main {
         System.out.println("2.Подзадачу");
         System.out.println("3.Эпик");
         int typeTask = Integer.parseInt(scanner.next());
-        if(typeTask == 1){
+        if (typeTask == 1) {
             Task task = new Task(inMemoryTaskManager.getTask(id).getName(), inMemoryTaskManager.getTask(id).getDescription(), Progress.NEW);
             task.setId(id);
             changeTask(scanner, task, id);
-        }else if (typeTask == 2){
+        } else if (typeTask == 2) {
             Subtask subtask = new Subtask(inMemoryTaskManager.getSubtask(id).getName(), inMemoryTaskManager.getSubtask(id).getDescription(), inMemoryTaskManager.getSubtask(id).getEpic(), Progress.NEW);
             subtask.setId(id);
             changeTask(scanner, subtask, id);
@@ -176,7 +170,7 @@ public class Main {
             Epic epic = new Epic(inMemoryTaskManager.getEpic(id).getName(), inMemoryTaskManager.getEpic(id).getDescription());
             epic.setId(id);
             changeTask(scanner, epic, id);
-        }else {
+        } else {
             System.out.println("такой команды нет");
         }
     }
@@ -189,26 +183,26 @@ public class Main {
         int typeTask = Integer.parseInt(scanner.next());
         System.out.println("Введите id задачи, которую нужно удалить: ");
         int id = scanner.nextInt();
-        if (typeTask ==1){
+        if (typeTask == 1) {
             inMemoryTaskManager.removeTask(id);
         } else if (typeTask == 2) {
             inMemoryTaskManager.removeSubtask(id);
         } else if (typeTask == 3) {
             inMemoryTaskManager.removeEpic(id);
-        }else {
+        } else {
             System.out.println("такой команды нет");
         }
 
     }
 
     private static void getSubtasksEpic(Scanner scanner) {
-        printAllTasks();
+        printAllTasks(inMemoryTaskManager);
         System.out.println("введите ID эпика: ");
         int id = scanner.nextInt();
         System.out.println(inMemoryTaskManager.getSubtasks(id));
     }
 
-    private static void changeTask(Scanner scanner, Epic task, int id){
+    private static void changeTask(Scanner scanner, Epic task, int id) {
         if (inMemoryTaskManager.getEpic(id) != null) {
 
             System.out.println("Что вы хотите изменить?");
@@ -237,7 +231,7 @@ public class Main {
         }
     }
 
-    private static void changeTask(Scanner scanner, Subtask task, int id){
+    private static void changeTask(Scanner scanner, Subtask task, int id) {
         if (inMemoryTaskManager.getSubtask(id) != null) {
 
             System.out.println("Что вы хотите изменить?");
@@ -273,7 +267,7 @@ public class Main {
         }
     }
 
-    private static void changeTask(Scanner scanner, Task task, int id){
+    private static void changeTask(Scanner scanner, Task task, int id) {
         if (inMemoryTaskManager.getTask(id) != null) {
 
             System.out.println("Что вы хотите изменить?");
