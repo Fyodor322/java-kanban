@@ -1,5 +1,7 @@
 package tasks;
-import enums.*;
+
+import enums.Progress;
+import enums.TaskTypes;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -10,10 +12,6 @@ public class Epic extends Task {
     public Epic(String name, String description) {
         super(name, description, Progress.NEW);
         subtasks = new ArrayList<>();
-    }
-
-    public ArrayList<Integer> getSubtasks() {
-        return subtasks;
     }
 
     public void addSubtask(Integer subtask) {
@@ -32,18 +30,16 @@ public class Epic extends Task {
 
     @Override
     public String toString() {
-        return "tasks.Task{" +
-                "name='" + getName() + '\'' +
-                ", description.length='" + getDescription().length() + '\'' +
-                ", id=" + getId() +
-                ", progress=" + getProgress() +
-                ", subtasks=" + getSubtasks().size() +
-                "}\n";
+        return getId() + "," + TaskTypes.EPIC + "," + getName() + "," + getProgress() + "," + getDescription();
     }
 
     @Override
     public int hashCode() {
         int prime = 28;
         return prime * Objects.hash(super.hashCode(), subtasks);
+    }
+
+    public ArrayList<Integer> getSubtasks() {
+        return this.subtasks;
     }
 }

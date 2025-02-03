@@ -1,7 +1,8 @@
-package taskmanager;
+package task.manager;
 
 import tasks.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,11 +25,8 @@ public interface TaskManager {
 
     Epic getEpic(int id);
 
-    int addTask(Subtask subtask);
 
-    int addTask(Epic epic);
-
-    int addTask(Task task);
+    <T extends Task> int addTask(T task);
 
     <T extends Task> boolean updateTask(T task);
 

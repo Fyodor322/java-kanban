@@ -1,10 +1,10 @@
 
 import enums.Progress;
-import historymanager.*;
+import history.manager.HistoryManager;
 import managers.Managers;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import taskmanager.TaskManager;
+import task.manager.TaskManager;
 import tasks.Epic;
 import tasks.Subtask;
 import tasks.Task;

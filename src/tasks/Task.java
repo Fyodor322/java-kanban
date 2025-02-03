@@ -1,10 +1,11 @@
 package tasks;
 
-import enums.*;
+import enums.Progress;
+import enums.TaskTypes;
 
 import java.util.Objects;
 
-public class Task {
+public class Task implements TaskIn {
     private String name;
     private String description;
     private Progress progress;
@@ -13,38 +14,6 @@ public class Task {
     public Task(String name, String description, Progress progress) {
         this.name = name;
         this.description = description;
-        this.progress = progress;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Progress getProgress() {
-        return progress;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setProgress(Progress progress) {
         this.progress = progress;
     }
 
@@ -64,12 +33,39 @@ public class Task {
 
     @Override
     public String toString() {
-        return "tasks.Task{" +
-                "name='" + name + '\'' +
-                ", description.length='" + description.length() + '\'' +
-                ", progress=" + progress +
-                ", id=" + id +
-                "}\n";
+        return id + "," + TaskTypes.TASK + "," + name + "," + progress + "," + description;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public Progress getProgress() {
+        return this.progress;
+    }
+
+    public int getId() {
+        return this.id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setProgress(Progress progress) {
+        this.progress = progress;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
 
