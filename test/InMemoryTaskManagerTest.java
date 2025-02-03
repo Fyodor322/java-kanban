@@ -21,10 +21,6 @@ class InMemoryTaskManagerTest {
     static Epic epic;
     static Subtask subtask;
 
-    @BeforeAll
-    static void beforeAll() {
-
-    }
 
     @Test
     void addNewTask() {
