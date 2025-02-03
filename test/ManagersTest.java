@@ -3,7 +3,7 @@
 import history.manager.HistoryManager;
 import history.manager.InMemoryHistoryManager;
 import org.junit.jupiter.api.Test;
-import task.manager.InMemoryTaskManager;
+
 import task.manager.TaskManager;
 import managers.*;
 

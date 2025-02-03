@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class FileBackedTaskManagerTest {
 
 
-    FileBackedTaskManager taskManager = (FileBackedTaskManager) Managers.getDefault();
+    FileBackedTaskManager taskManager = Managers.getDefault();
 
     @Test
     void savingMultiplyTasks() {
