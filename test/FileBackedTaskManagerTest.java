@@ -1,6 +1,7 @@
 import enums.Progress;
 import exceptions.ManagerSaveException;
 
+import managers.Managers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import task.manager.FileBackedTaskManager;
@@ -17,7 +18,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FileBackedTaskManagerTest {
 
-    FileBackedTaskManager taskManager = FileBackedTaskManager.loadFromFile(new File("src/resources/base"));
+
+    FileBackedTaskManager taskManager = (FileBackedTaskManager) Managers.getDefault();
 
     @BeforeEach
     void cleanFile() {
@@ -55,9 +57,13 @@ class FileBackedTaskManagerTest {
     @Test
     void loadFromFile() {
         Task task1 = new Task("Task1", "disTask1", Progress.NEW);
+        task1.setId(1);
         Task task2 = new Task("Task2", "disTask2", Progress.NEW);
+        task2.setId(2);
         Task task3 = new Task("Task3", "disTask3", Progress.IN_PROGRESS);
+        task3.setId(3);
         Task task4 = new Task("Task4", "disTask4", Progress.NEW);
+        task4.setId(4);
 
         List<TaskIn> tasks = new ArrayList<>();
         tasks.add(task1);
@@ -68,6 +74,7 @@ class FileBackedTaskManagerTest {
         try (Writer fileCleaner = new FileWriter(taskManager.getPath().toFile())) {
             for (TaskIn task : tasks) {
                 fileCleaner.write(task.toString());
+                System.out.println(task.toString());
             }
         } catch (IOException e) {
             throw new ManagerSaveException("ошибка при работе с файлом");

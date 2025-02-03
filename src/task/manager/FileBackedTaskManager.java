@@ -44,13 +44,19 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     public static FileBackedTaskManager loadFromFile(File file) {
         FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(file.toPath());
 
+
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             while (br.ready()) {
-                fileBackedTaskManager.addTask(fromString(br.readLine()));
+                String str = br.readLine();
+                if (!str.isEmpty()) {
+                    fileBackedTaskManager.addTask(fromString(str));
+                }
             }
         } catch (IOException e) {
             throw new ManagerSaveException("ошибка при работе с файлом");
         }
+
+
         return fileBackedTaskManager;
     }
 
