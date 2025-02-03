@@ -21,13 +21,6 @@ class FileBackedTaskManagerTest {
 
     FileBackedTaskManager taskManager = (FileBackedTaskManager) Managers.getDefault();
 
-    @BeforeEach
-    void cleanFile() {
-        taskManager.removeAllTasks();
-        taskManager.removeAllSubtasks();
-        taskManager.removeAllEpics();
-    }
-
     @Test
     void savingMultiplyTasks() {
 
