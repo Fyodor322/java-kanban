@@ -25,13 +25,13 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 fileCleaner.write("");
             }
             try (Writer fileWriter = new FileWriter(path.toFile(), true)) {
+                for (TaskIn task : getEpics()) {
+                    fileWriter.write(task.toString() + "\n");
+                }
                 for (TaskIn task : getTasks()) {
                     fileWriter.write(task.toString() + "\n");
                 }
                 for (TaskIn task : getSubtasks()) {
-                    fileWriter.write(task.toString() + "\n");
-                }
-                for (TaskIn task : getEpics()) {
                     fileWriter.write(task.toString() + "\n");
                 }
             }
