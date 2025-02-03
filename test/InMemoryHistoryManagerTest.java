@@ -4,6 +4,7 @@ import history.manager.HistoryManager;
 import managers.Managers;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import task.manager.FileBackedTaskManager;
 import task.manager.TaskManager;
 import tasks.Epic;
 import tasks.Subtask;
@@ -15,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class InMemoryHistoryManagerTest {
 
-    static TaskManager taskManager = Managers.getDefault();
+    static FileBackedTaskManager taskManager = (FileBackedTaskManager) Managers.getDefault();
     static HistoryManager historyManager = Managers.getDefaultHistory();
     static Task task;
     static Epic epic;
