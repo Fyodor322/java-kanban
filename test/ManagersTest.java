@@ -19,7 +19,7 @@ class ManagersTest {
         assertNotNull(taskManager, "getDefault возвращает null");
         assertNotNull(historyManager, "getDefaultHistory возвращает null");
 
-        assertEquals(InMemoryTaskManager.class, taskManager.getClass(), "getDefault() возвращает не тот тип");
+        assertEquals(task.manager.FileBackedTaskManager.class, taskManager.getClass(), "getDefault() возвращает не тот тип");
         assertEquals(InMemoryHistoryManager.class, historyManager.getClass(), "getDefaultHistory() возвращает не тот тип");
     }
 }
