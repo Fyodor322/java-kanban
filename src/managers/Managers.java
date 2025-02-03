@@ -1,17 +1,14 @@
 package managers;
 
-import history.manager.HistoryManager;
-import history.manager.InMemoryHistoryManager;
-import task.manager.FileBackedTaskManager;
-
-
-import java.io.File;
-
+import historymanager.HistoryManager;
+import historymanager.InMemoryHistoryManager;
+import taskmanager.InMemoryTaskManager;
+import taskmanager.TaskManager;
 
 public class Managers {
 
-    public static FileBackedTaskManager getDefault() {
-        return FileBackedTaskManager.loadFromFile(new File("src/resources/base"));
+    public static TaskManager getDefault() {
+        return new InMemoryTaskManager();
     }
 
     public static HistoryManager getDefaultHistory() {
