@@ -33,7 +33,7 @@ public class Task implements TaskIn {
 
     @Override
     public String toString() {
-        return id + "," + TaskTypes.TASK + "," + name + "," + progress + "," + description;
+        return id + "," + TaskTypes.TASK + "," + name + "," + progress + "," + description + ",";
     }
 
     public String getName() {

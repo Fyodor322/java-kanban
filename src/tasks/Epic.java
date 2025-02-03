@@ -30,7 +30,7 @@ public class Epic extends Task {
 
     @Override
     public String toString() {
-        return getId() + "," + TaskTypes.EPIC + "," + getName() + "," + getProgress() + "," + getDescription();
+        return getId() + "," + TaskTypes.EPIC + "," + getName() + "," + getProgress() + "," + getDescription() + ",";
     }
 
     @Override
