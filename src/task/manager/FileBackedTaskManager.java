@@ -58,7 +58,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         String[] arguments = value.split(",");
         Task task;
 
-        //int id = Integer.parseInt(arguments[0]);
+        int id = Integer.parseInt(arguments[0]);
         TaskTypes taskTypes = TaskTypes.valueOf(arguments[1]);
         String name = arguments[2];
         Progress progress = Progress.valueOf(arguments[3]);
@@ -66,11 +66,14 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
         if (taskTypes.equals(TaskTypes.TASK)) {
             task = new Task(name, description, progress);
+            task.setId(id);
         } else if (taskTypes.equals(TaskTypes.EPIC)) {
             task = new Epic(name, description);
+            task.setId(id);
         } else {
             int epic = Integer.parseInt(arguments[5]);
             task = new Subtask(name, description, epic, progress);
+            task.setId(id);
         }
 
         return task;
