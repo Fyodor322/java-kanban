@@ -76,7 +76,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             task = new Epic(name, description);
             task.setId(id);
         } else {
-            int epic = Integer.parseInt(arguments[5]);
+            int epic = Integer.parseInt(arguments[5].trim());
             task = new Subtask(name, description, epic, progress);
             task.setId(id);
         }
