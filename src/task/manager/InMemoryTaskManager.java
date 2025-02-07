@@ -1,6 +1,6 @@
-package taskmanager;
+package task.manager;
 
-import historymanager.HistoryManager;
+import history.manager.HistoryManager;
 import tasks.*;
 import enums.*;
 import managers.*;
@@ -97,33 +97,29 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public int addTask(Subtask subtask) {
-        if (subtask.getId() < nextId) {
-            subtask.setId(nextId++);
+    public <T extends Task> int addTask(T task) {
+        if (task instanceof Subtask subtask) {
+            if (subtask.getId() < nextId) {
+                subtask.setId(nextId++);
+            }
+            Epic epic = epics.get(subtask.getEpic());
+            epic.addSubtask(subtask.getId());
+            subtasks.put(subtask.getId(), subtask);
+            calculateProgress(epic);
+            return subtask.getId();
+        } else if (task instanceof Epic epic) {
+            if (epic.getId() < nextId) {
+                epic.setId(nextId++);
+            }
+            epics.put(epic.getId(), epic);
+            return epic.getId();
+        } else {
+            if (task.getId() < nextId) {
+                task.setId(nextId++);
+            }
+            tasks.put(task.getId(), task);
+            return task.getId();
         }
-        Epic epic = epics.get(subtask.getEpic());
-        epic.addSubtask(subtask.getId());
-        subtasks.put(subtask.getId(), subtask);
-        calculateProgress(epic);
-        return subtask.getId();
-    }
-
-    @Override
-    public int addTask(Epic epic) {
-        if (epic.getId() < nextId) {
-            epic.setId(nextId++);
-        }
-        epics.put(epic.getId(), epic);
-        return epic.getId();
-    }
-
-    @Override
-    public int addTask(Task task) {
-        if (task.getId() < nextId) {
-            task.setId(nextId++);
-        }
-        tasks.put(task.getId(), task);
-        return task.getId();
     }
 
 

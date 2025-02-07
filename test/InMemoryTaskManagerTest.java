@@ -1,10 +1,9 @@
 
 
-import historymanager.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import taskmanager.*;
+import task.manager.TaskManager;
 import tasks.*;
 import managers.*;
 import enums.*;
@@ -22,10 +21,6 @@ class InMemoryTaskManagerTest {
     static Epic epic;
     static Subtask subtask;
 
-    @BeforeAll
-    static void beforeAll() {
-
-    }
 
     @Test
     void addNewTask() {
