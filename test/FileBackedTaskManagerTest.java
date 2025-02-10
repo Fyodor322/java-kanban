@@ -37,6 +37,7 @@ class FileBackedTaskManagerTest {
         taskManager.addTask(epic);
 
         try (BufferedReader br = new BufferedReader(new FileReader(taskManager.getPath().toFile()))) {
+            br.readLine();
             while (br.ready()) {
                 String strObject = br.readLine();
                 assertTrue(tasks.contains(FileBackedTaskManager.fromString(strObject)) ||

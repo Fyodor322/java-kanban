@@ -24,8 +24,11 @@ public interface TaskManager {
 
     Epic getEpic(int id);
 
+    int addTask(Subtask subtask);
 
-    <T extends Task> int addTask(T task);
+    int addTask(Epic epic);
+
+    int addTask(Task task);
 
     <T extends Task> boolean updateTask(T task);
 
