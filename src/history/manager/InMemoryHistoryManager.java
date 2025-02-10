@@ -1,4 +1,4 @@
-package historymanager;
+package history.manager;
 
 import tasks.Task;
 
@@ -11,8 +11,8 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     private static class Node {
         Task task;
-        public Node next;
-        public Node prev;
+        Node next;
+        Node prev;
 
         public Node(Node prev, Task task, Node next) {
             this.task = task;

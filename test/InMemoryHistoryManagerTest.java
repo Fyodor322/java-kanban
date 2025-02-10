@@ -1,10 +1,10 @@
-
 import enums.Progress;
-import historymanager.*;
+import history.manager.HistoryManager;
 import managers.Managers;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import taskmanager.TaskManager;
+import task.manager.FileBackedTaskManager;
 import tasks.Epic;
 import tasks.Subtask;
 import tasks.Task;
@@ -15,14 +15,21 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class InMemoryHistoryManagerTest {
 
-    static TaskManager taskManager = Managers.getDefault();
+    static FileBackedTaskManager taskManager = Managers.getDefault();
     static HistoryManager historyManager = Managers.getDefaultHistory();
     static Task task;
     static Epic epic;
     static Subtask subtask;
 
-    @BeforeAll
-    static void beforeAll() {
+    @BeforeEach
+    void clearTaskManager() {
+        taskManager.removeAllTasks();
+        taskManager.removeAllEpics();
+        taskManager.removeAllSubtasks();
+    }
+
+    @Test
+    void add() {
         task = new Task("задача1", "опЗадачи1", Progress.NEW);
         epic = new Epic("эпик1", "опЭпик1");
         taskManager.addTask(task);
@@ -30,10 +37,7 @@ class InMemoryHistoryManagerTest {
 
         subtask = new Subtask("Подзадача11", "Подзадача11", epic.getId(), Progress.NEW);
         taskManager.addTask(subtask);
-    }
 
-    @Test
-    void add() {
         System.out.println("задача: " + taskManager.getTask(task.getId()));
         System.out.println("эпик: " + taskManager.getEpic(epic.getId()));
         System.out.println("подзадача: " + taskManager.getSubtask(subtask.getId()));
@@ -57,6 +61,14 @@ class InMemoryHistoryManagerTest {
 
     @Test
     void remove() {
+        task = new Task("задача1", "опЗадачи1", Progress.NEW);
+        epic = new Epic("эпик1", "опЭпик1");
+        taskManager.addTask(task);
+        taskManager.addTask(epic);
+
+        subtask = new Subtask("Подзадача11", "Подзадача11", epic.getId(), Progress.NEW);
+        taskManager.addTask(subtask);
+
         historyManager.remove(2);
         for (Task elTask : historyManager.getHistory()) {
             assertEquals(task, elTask, "подзадача эпика не удаляется при удалении эпика");
